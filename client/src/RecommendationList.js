@@ -29,17 +29,25 @@ export class RecommendationList extends Component {
     
     render() {  
         return (
-
             <div>
             <h3>ID: {this.state.id}</h3>
             <p>Anzahl Recommendation: {this.state.count}</p>
-            {console.log(this.state.data)}
-            {
-                this.state.data.map((recommendation) => {
-                    console.log("recommendation:" + JSON.stringify(recommendation))
-                    return (<Recommendation key={recommendation.recoid} title={recommendation.title} link={recommendation.link} />)
-                })
-            }  
+
+            <table cellspacing="15">
+                <tr>
+                    <th>Titel</th>
+                    <th>Kategorie</th>
+                    <th>Beschreibung</th>
+                    <th></th>
+                </tr>
+                {
+                    this.state.data.map((r) => {
+                        console.log("recommendation:" + JSON.stringify(r))
+                        return (<Recommendation key={r.recoid} title={r.title}
+                            link={r.link} category={r.category} description={r.description}/>)
+                    })
+                }  
+            </table>
             </div> 
         )
     }
