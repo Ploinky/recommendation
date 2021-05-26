@@ -12,16 +12,14 @@ export class RecommendationList extends Component {
     }
 
     componentDidMount() {
-        this.state.id = this.props.match.params.id;
-      
-      fetch('http://localhost:5001/recommendations/' + this.state.id)
+      fetch('http://localhost:5001/recommendations/' + this.props.match.params.id)
       .then(res => {
           return res.json() 
       })
       .then((data) => {
-          console.log('result : ' + JSON.stringify(data));
           this.setState({count: data.length,
-            data: data
+            data: data,
+            id: this.props.match.params.id
         })
       });
       
@@ -33,20 +31,23 @@ export class RecommendationList extends Component {
             <h3>ID: {this.state.id}</h3>
             <p>Anzahl Recommendation: {this.state.count}</p>
 
-            <table cellspacing="15">
-                <tr>
-                    <th>Titel</th>
-                    <th>Kategorie</th>
-                    <th>Beschreibung</th>
-                    <th></th>
-                </tr>
+            <table cellSpacing="15">
+                <thead>
+                    <tr>
+                        <th>Titel</th>
+                        <th>Kategorie</th>
+                        <th>Beschreibung</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
                 {
                     this.state.data.map((r) => {
-                        console.log("recommendation:" + JSON.stringify(r))
-                        return (<Recommendation key={r.recoid} title={r.title}
-                            link={r.link} category={r.category} description={r.description}/>)
+                    return (<Recommendation key={r._id} title={r.title}
+                        link={r.link} category={r.category} description={r.description}/>)
                     })
                 }  
+                </tbody>
             </table>
             </div> 
         )
