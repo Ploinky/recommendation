@@ -11,7 +11,7 @@ class App extends Component {
         <div>
         </div>
         <Switch>
-          <Route path="/:id" children={<RecommendationList />}/>
+          <Route path="/:id" component={RecommendationList}/>
         </Switch>
       </Router>
 
