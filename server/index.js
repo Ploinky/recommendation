@@ -6,6 +6,7 @@ const cors = require('cors')
 const { v4: uuidv4} = require('uuid')
 const mongodb = require('./db/db')
 const auth = require('./controller/auth_controller')
+const authjwt = require('./middlewares/authjwt')
 
 const RecommendationDao = require('./db/model/RecommendationDao')
 
@@ -26,7 +27,7 @@ app.get('/', (req,res) => {
 // POST /recommendations/:id/ - Erstellen einer Recommendation (nur auf korrekter ID)
 // DELETE /recommendations/:id/:recommendationId - Löschen der Recommendation mit der ID
 
-app.get('/recommendations/:id', (req, res) => {
+app.get('/recommendations/:id',  [authjwt.verifyToken], (req, res) => {
     RecommendationDao.find({'user': req.params.id}, function (err, recoms) {
         if (err) {
             res.status(200).send("No recommendations for user found").end()
@@ -37,7 +38,7 @@ app.get('/recommendations/:id', (req, res) => {
       })
 })
 
-app.post('/recommendations/:id', (req, res) => {
+app.post('/recommendations/:id', [authjwt.verifyToken], (req, res) => {
     var rec = new RecommendationDao(req.body)
     rec.user = req.params.id
 
