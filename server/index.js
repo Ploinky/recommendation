@@ -5,6 +5,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const { v4: uuidv4} = require('uuid')
 const mongodb = require('./db/db')
+const auth = require('./controller/auth_controller')
 
 const RecommendationDao = require('./db/model/RecommendationDao')
 
@@ -48,6 +49,14 @@ app.post('/recommendations/:id', (req, res) => {
         console.log("error: " + err)
         res.status(500).send("error saving to db: " + err)
     })
+})
+
+app.post('/signup', (req, res) => {
+    auth.signup(req, res)
+})
+
+app.post('/signin', (req, res) => {
+    auth.signin(req, res)
 })
 
 app.delete('/recommendations/:id/:recommendationId', (req, res) => {
