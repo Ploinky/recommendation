@@ -1,7 +1,7 @@
 const User = require('../db/model/User')
 var bcrypt = require('bcrypt')
 var jwt = require('jsonwebtoken')
-const config = require("../config/auth.config")
+const config = require("../config/auth.config.js")
 
 exports.signup = (req, res) => {
     const user = new User({
@@ -20,15 +20,18 @@ exports.signup = (req, res) => {
 }
 
 exports.signin = (req, res) => {
+    console.log(req.body.username)
     User.findOne({ username: req.body.username})
         .exec((err, user) => {
             if(err) {
-                res.status(500).send('User not found: ' + err)
+                res.status(500).send({ 
+                    headers: {'Content-Type': 'text/plain'},
+                    body: 'User not found: ' + err} )
                 return
             }
 
             if(!user) {
-                res.status(404).send("User not found!")
+                res.status(401).send("User not found!")
                 return
             }
 

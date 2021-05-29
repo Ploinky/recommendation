@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import UserIdInput from './UserIdInput'
+import { withRouter } from 'react-router-dom'
 
-export class Homepage extends Component {
+class Homepage extends Component {
     render() {
         return (
-            <UserIdInput/>
+            <UserIdInput handleLogin={this.props.handleLogin}/>
         )
     }
 }
+
+export default withRouter(Homepage)

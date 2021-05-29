@@ -4,21 +4,24 @@ import { withRouter } from 'react-router-dom'
 class UserIdInput extends Component {
     constructor(props) {
         super(props)
-        this.state = { value: '' }
+        this.state = { userId: '', pwd: '' }
 
+        this.handleChangePwd = this.handleChangePwd.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    handleChange(event) {
-        this.setState({ value: event.target.value })
+    handleSubmit(event) {
+        this.props.handleLogin(this.state.userId, this.state.pwd);
+        event.preventDefault()
     }
 
-    handleSubmit(event) {
-        alert('a value was submitted: ' + this.state.value) 
+    handleChange(event) {
+        this.setState({ userId: event.target.value })
+    }
 
-        this.props.history.push('/' + this.state.value)
-        event.preventDefault()
+    handleChangePwd(event) {
+        this.setState({ pwd: event.target.value })
     }
 
     render() {
@@ -26,7 +29,8 @@ class UserIdInput extends Component {
             <form onSubmit={this.handleSubmit}>
                 <label>
                     UserId:
-                    <input type="text" value={this.state.value} onChange={this.handleChange} />
+                    <input type="text" value={this.state.userId} onChange={this.handleChange} />
+                    <input type="text" value={this.state.pwd} onChange={this.handleChangePwd} />
                 </label>
                 <input type="submit" value="Submit" />
             </form>
